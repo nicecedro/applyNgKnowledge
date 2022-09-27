@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+    <span>Dutezimbere ibikorwa</span>
+    <ul>
+        <li> <a routerLink="/credits" routerLinkActive="active">Crédits </a> </li>
+        <li> <a routerLink="/membres" routerLinkActive="active">Membres </a> </li>
+        <li> <a routerLink="/reclamations" routerLinkActive="active">Réclamations </a> </li>
+        <li> <a routerLink="/login" routerLinkActive="active" *ngIf="!userConnected">Connexion </a> </li>
+        <li *ngIf="userConnected"> <a style="font-size: small;" routerLinkActive="active">Bonjour,
+                {{ userConnected | titlecase }}
+            </a>&nbsp;&nbsp;<button (click)="onLogout()">Déconnexion</button>
+        </li>
+    </ul>
+</mat-toolbar>

@@ -1,0 +1,42 @@
+<div mat-dialog-title>
+    Infos du membre
+</div>
+<mat-dialog-content>
+
+    <mat-list>
+        <mat-list-item>
+            <span matLine> Nom</span>
+            <h1 matLine>{{ membre.nom }}</h1>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <span matLine> Prénom</span>
+            <h1 matLine>{{ membre.prenom }}</h1>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item *ngIf="membre.birthday">
+            <span matLine> Date de naissance</span>
+            <h1 matLine>{{ membre.birthday | date : 'Y-MM-d' }}</h1>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <span matLine>Username</span>
+            <h1 matLine>{{ membre.username }}</h1>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <span matLine> Mot de passe</span>
+            <h1 matLine>{{ membre.password }}</h1>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        <mat-list-item>
+            <span matLine>Créé le </span>
+            <h1 matLine>{{ membre.createdDate | date : 'Y-MM-d' }}</h1>
+        </mat-list-item>
+    </mat-list>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" tabindex="1" (click)="onConfirm()">{{confirmBtnText}}</button>
+    <button mat-raised-button mat-dialog-close tabindex="-1"> {{ cancelBtnText }} </button>
+</mat-dialog-actions>

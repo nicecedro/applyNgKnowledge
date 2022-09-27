@@ -1,0 +1,31 @@
+.card {
+    margin-bottom: 10px;
+
+    a {
+        color: black;
+        text-decoration: none;
+        font-weight: normal;
+        margin-right: 20px;
+
+        &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
+
+.text-avatar {
+    background-color: lightseagreen;
+    vertical-align: middle;
+    color: white;
+    text-align: center;
+}
+
+.demo-table {
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+.column {
+    color: red;
+}
