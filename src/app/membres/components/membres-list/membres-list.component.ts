@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { filter, map, Observable, tap } from 'rxjs';
+import { LoginService } from 'src/app/login/services/login.service';
 import { Membre } from '../../models/membres.model';
 import { MembresService } from '../../services/membres.service';
 import { ConfirmationDialogComponent } from '../dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -31,7 +32,7 @@ export class MembresListComponent implements OnInit {
   search: string = 'Nom et prénom';
   displayedColumns = ['id', 'nom', 'prenoms', 'username', 'action'];
 
-  constructor(private membreService: MembresService, private route: Router, private fbuilder: FormBuilder, private dialog: MatDialog) { }
+  constructor(private membreService: MembresService, private route: Router, private fbuilder: FormBuilder, private dialog: MatDialog, private logService: LoginService, private snabar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.membres = this.membreService.getAllMembres()
@@ -40,6 +41,15 @@ export class MembresListComponent implements OnInit {
     this.searchForm = this.fbuilder.group({
       searchCtrl: [null, [Validators.required]]
     });
+
+    console.log(this.logService.isAuthenticated());
+
+    if (this.logService.isAuthenticated()) {
+      this.snabar.open('VOus avez été identifié', 'Fermer');
+    } else {
+
+      this.snabar.open('Vous n\'avez pas été identifié');
+    }
 
     this.membre$ = this.searchForm.valueChanges.pipe(
       map(val => val['id']),

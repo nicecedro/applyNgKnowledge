@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
+import { LoginService } from '../login/services/login.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 
@@ -15,6 +17,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     SharedModule
   ],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent],
+  providers: [LoginService]
 })
 export class CoreModule { }

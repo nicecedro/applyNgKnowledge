@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/login/services/login.service';
 
 @Component({
   selector: 'app-header',
@@ -8,17 +9,16 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  userConnected?: string;
-  constructor(private routes: Router) { }
+  userConnected?: any;
+  constructor(private routes: Router, private logService: LoginService) { }
 
   ngOnInit(): void {
-    this.userConnected = localStorage.getItem('username')?.toString();
+    this.userConnected = this.logService.getConnectedUser();;
+
   }
 
   onLogout() {
-
-    localStorage.setItem('username', '');
-
+    this.logService.logOut();
     const currentUrl = this.routes.url;
     window.location.assign('/login');
   }

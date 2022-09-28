@@ -6,8 +6,8 @@
         <li> <a routerLink="/reclamations" routerLinkActive="active">Réclamations </a> </li>
         <li> <a routerLink="/login" routerLinkActive="active" *ngIf="!userConnected">Connexion </a> </li>
         <li *ngIf="userConnected"> <a style="font-size: small;" routerLinkActive="active">Bonjour,
-                {{ userConnected | titlecase }}
-            </a>&nbsp;&nbsp;<button (click)="onLogout()">Déconnexion</button>
+                {{ userConnected }}
+            </a>&nbsp;&nbsp;<button mat-raised-button color='danger' (click)="onLogout()">Déconnexion</button>
         </li>
     </ul>
 </mat-toolbar>

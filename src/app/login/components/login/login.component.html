@@ -3,28 +3,38 @@
         <mat-card-title>Se connecter</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <form (ngSubmit)="onLogin()">
+        <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+            <mat-card *ngIf="errMsg">
+                <mat-card-content>
+                    <span class="error-text">{{errMsg}}</span>
+                </mat-card-content>
+            </mat-card>
             <div class="form-group">
-                <label for="">Username : </label>
-                <input type="text" placeholder="Username" id="username" [(ngModel)]="username" name="username">
+                <mat-form-field>
+                    <input type="text" matInput placeholder="Username" formControlName="username" required id="username"
+                        name="username">
+                    <mat-error>
+                        {{ unVal(username) }}
+                    </mat-error>
+                </mat-form-field>
+
             </div>
             <div class="form-group">
-                <Label>Password : </Label>
-                <input type="text" placeholder="Password" name="password" [(ngModel)]="password" id="password">
+                <mat-form-field>
+                    <input type="password" matInput placeholder="Password" name="password" formControlName="password"
+                        id="password">
+                    <mat-error>
+                        {{ pwdVal(password) }}
+                    </mat-error>
+                </mat-form-field>
             </div>
             <div class="form-group">
-                <input type="submit" value="Login">
+                <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.valid">Login</button>
             </div>
 
         </form>
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-button (click)="onLogin()">Connexion</button>
-    </mat-card-actions>
-</mat-card>
-
-<mat-card *ngIf="connected">
-    <mat-card-content>
-        <label for="" [ngClass]="{'error-text': connected !== '' }"> {{ connected }} </label>
-    </mat-card-content>
+    <mat-card-footer *ngIf="loading">
+        <mat-progress-bar mode="indeterminate" color="danger"></mat-progress-bar>
+    </mat-card-footer>
 </mat-card>

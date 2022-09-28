@@ -5,7 +5,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './components/login/login.component';
 import { SharedModule } from '../shared/shared.module';
 import { LoginService } from './services/login.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembresService } from '../membres/services/membres.service';
 
 
@@ -16,6 +16,7 @@ import { MembresService } from '../membres/services/membres.service';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     LoginRoutingModule
   ],

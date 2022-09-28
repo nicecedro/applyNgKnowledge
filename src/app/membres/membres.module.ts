@@ -9,6 +9,7 @@ import { MembresService } from './services/membres.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembresEditComponent } from './components/membres-edit/membres-edit.component';
 import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { LoginService } from '../login/services/login.service';
 
 
 @NgModule({
@@ -25,6 +26,6 @@ import { ConfirmationDialogComponent } from './components/dialogs/confirmation-d
     ReactiveFormsModule,
     SharedModule
   ],
-  providers: [MembresService]
+  providers: [MembresService, LoginService]
 })
 export class MembresModule { }

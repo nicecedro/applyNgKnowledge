@@ -12,6 +12,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatListModule } from "@angular/material/list";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 @NgModule({
     exports: [
@@ -28,6 +29,7 @@ import { MatListModule } from "@angular/material/list";
         MatDialogModule,
         MatSnackBarModule,
         MatListModule,
+        MatProgressBarModule,
     ],
 })
 

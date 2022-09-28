@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { interval, map, Observable, take, tap } from 'rxjs';
-import { MembresService } from 'src/app/membres/services/membres.service';
-import { Users } from '../../models/users.model';
+import { tap } from 'rxjs';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -12,59 +12,60 @@ import { LoginService } from '../../services/login.service';
 })
 export class LoginComponent implements OnInit {
 
+  loginForm !: FormGroup;
+  username !: FormControl;
+  password !: FormControl;
 
-  users !: Users[];
-  log$ !: Observable<string>;
-
-  username !: string;
-  password !: string;
-
-  connected: string = '';
+  errMsg !: string;
+  loading: boolean = false;
 
   constructor(private logService: LoginService,
-    private membreService: MembresService,
-    private routes: Router
+    private fbuilder: FormBuilder,
+    private snBar: MatSnackBar,
+    private route: Router
   ) { }
 
   ngOnInit(): void {
-    this.username = '@coduibi.com';
-    this.password = '*****';
-    this.log$ = interval(1000).pipe(
-      map(value => value % 2 === 0 ? `rouge` : `jaune`),
-      tap(color => console.log(`La lumière s'allume en %c${color} kskks`, `color: ${this.translateColor(color)}`)),
-      take(1)
-    );
-  }
 
-  translateColor(color: 'rouge' | 'jaune') {
-    return color === 'rouge' ? 'red' : 'yellow';
-  }
+    this.username = this.fbuilder.control('@coduibi.com', [Validators.required]);
+    this.password = this.fbuilder.control('******', [Validators.required]);
+    this.loginForm = this.fbuilder.group({
+      username: this.username,
+      password: this.password,
+    });
 
+    this.loginForm.valueChanges.pipe(
+      tap(() => this.errMsg = '')
+    ).subscribe()
+  }
   onLogin() {
 
-    // console.log(`Username %c${this.username}`, 'color: red');
-    // console.log(`Password %c${this.password}`, 'color: blue');
-    let user = this.logService.getUserByUsername(this.username);
-    if (user) {
-      console.log(user.username);
-      this.connected = '';
-      let pwd = this.logService.getUserByPwd(this.password)
-      if (pwd) {
-        this.connected = '';
-        let mbr = this.membreService.getMemberById(user.id);
-        localStorage.setItem('username', mbr.username);
-        console.log(localStorage.getItem('username') + ' is connected');
-        const currentUrl = this.routes.url;
-        window.location.assign('/membres');
-
-      } else {
-        this.connected = 'Mot de passe incorrect!';
-      }
+    if (this.logService.do_login(this.loginForm.value)) {
+      const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+      this.logService.saveToken(jwt)
+      this.snBar.open('Connexion établie', 'OK');
+      window.location.assign('/membres')
+      this.errMsg = '';
     } else {
-      this.connected = 'Nom d\'utilisateur incorrect!';
-      // console.log();
+      console.log('Username ou password incorrect');
+      this.errMsg = 'Username ou password incorrect';
     }
+  }
 
+  unVal(ctrl: AbstractControl) {
+    if (ctrl.hasError('required')) {
+      return 'Nom d\'utilisateur est obligatoire';
+    } else {
+      return 'OK';
+    }
+  }
+
+  pwdVal(ctrl: AbstractControl) {
+    if (ctrl.hasError('required')) {
+      return 'Mot de passe est obligatoire';
+    } else {
+      return 'OK';
+    }
   }
 
 }
